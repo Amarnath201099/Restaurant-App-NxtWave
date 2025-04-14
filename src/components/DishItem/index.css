@@ -1,0 +1,157 @@
+.each-dish-container {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #dce3e3;
+  border-radius: 3px;
+  padding: 6px;
+  font-family: 'Roboto';
+  margin-bottom: 10px;
+}
+
+.veg-symbol-border {
+  border: 1px solid green;
+  align-self: flex-start;
+  padding: 2px;
+  margin-right: 5px;
+}
+
+.veg-symbol {
+  background-color: green;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.non-veg-symbol-border {
+  border: 1px solid #92282a;
+  align-self: flex-start;
+  padding: 2px;
+  margin-right: 5px;
+}
+
+.non-veg-symbol {
+  background-color: #92282a;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dish-content-container {
+  margin: 0px 5px;
+  width: 60%;
+}
+
+.dish-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.dish-curreny-price {
+  font-size: 11px;
+  font-weight: 600;
+  margin: 5px 0px;
+}
+
+.dish-description {
+  font-size: 10px;
+  color: #b7b9bb;
+  margin: 5px 0px;
+}
+
+.dish-amount-container {
+  background-color: green;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 50%;
+  font-size: 10px;
+  border-radius: 25px;
+  padding: 5px;
+  margin-top: 7px;
+}
+
+.btn-style {
+  background-color: transparent;
+  border: 0px;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.dish-customise {
+  font-size: 10px;
+  color: #6a0ced;
+  margin: 0px;
+  margin-top: 7px;
+}
+
+.dish-calories {
+  font-size: 11px;
+  font-weight: 600;
+  color: orange;
+  align-self: center;
+  margin: 0px 5px;
+}
+
+.dish-quantity {
+  margin: 0px;
+}
+
+.dish-img-container {
+  width: 55px;
+  height: 55px;
+}
+
+.dish-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+.dish-not-available {
+  color: #d90e07;
+  font-size: 10px;
+  margin: 0px;
+  margin-top: 7px;
+}
+
+@media screen and (min-width: 768px) {
+  .veg-symbol-border {
+    padding: 3px;
+  }
+
+  .veg-symbol {
+    width: 13px;
+    height: 13px;
+  }
+
+  .non-veg-symbol-border {
+    padding: 3px;
+  }
+
+  .non-veg-symbol {
+    width: 13px;
+    height: 13px;
+  }
+
+  .dish-content-container {
+    margin-right: auto;
+  }
+
+  .dish-calories {
+    margin-right: auto;
+  }
+
+  .dish-amount-container {
+    width: 15%;
+    padding: 3px;
+  }
+
+  .dish-img-container {
+    width: 100px;
+    height: 100px;
+  }
+}

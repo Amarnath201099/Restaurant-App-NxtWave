@@ -1,0 +1,27 @@
+.each-category {
+  flex: 0 0 50%;
+  min-width: 50%;
+  font-family: 'Roboto';
+}
+
+.each-category-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 11px;
+  font-weight: 600;
+  width: 100%;
+  padding: 13px;
+  color: inherit;
+}
+
+.active-category-style {
+  color: #c40202;
+  border-bottom: 2px solid #c40202;
+}
+
+@media screen and (min-width: 768px) {
+  .each-category {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
