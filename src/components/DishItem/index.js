@@ -1,7 +1,13 @@
+import {useState, useContext} from 'react'
+
+import CartContext from '../../context/CartContext'
+
 import './index.css'
 
 const DishItem = props => {
-  const {dishData, addItemToCart, removeItemFromCart, cartList} = props
+  const {dishData} = props
+  const {addCartItem} = useContext(CartContext)
+  const [quantity, setQuantity] = useState(0)
 
   const {
     addOnCat,
@@ -9,28 +15,28 @@ const DishItem = props => {
     dishCalories,
     dishCurrency,
     dishDescription,
-    dishId,
     dishImage,
     dishName,
     dishPrice,
     dishType,
   } = dishData
 
-  const addItem = () => {
-    addItemToCart(dishData)
+  const incrementItemQuantity = () => {
+    setQuantity(prevState => prevState + 1)
   }
 
-  const removeItem = () => {
-    removeItemFromCart(dishData)
+  const decrementItemQuantity = () => {
+    setQuantity(prevState => (prevState > 0 ? prevState - 1 : 0))
+  }
+
+  const addItemToCart = () => {
+    addCartItem({...dishData, quantity})
   }
 
   const symbolBorderStyle =
     dishType === 1 ? 'non-veg-symbol-border' : 'veg-symbol-border'
 
   const symbolStyle = dishType === 1 ? 'non-veg-symbol' : 'veg-symbol'
-
-  const dish = cartList.find(eachDish => eachDish.dishId === dishId)
-  const dishQuantity = dish ? dish.quantity : 0
 
   const customizationsAvaliable = addOnCat.length > 0
 
@@ -47,11 +53,19 @@ const DishItem = props => {
         <p className="dish-description">{dishDescription}</p>
         {dishAvailability ? (
           <div className="dish-amount-container">
-            <button type="button" className="btn-style" onClick={removeItem}>
+            <button
+              type="button"
+              className="btn-style"
+              onClick={decrementItemQuantity}
+            >
               -
             </button>
-            <p className="dish-quantity">{dishQuantity}</p>
-            <button type="button" className="btn-style" onClick={addItem}>
+            <p className="dish-quantity">{quantity}</p>
+            <button
+              type="button"
+              className="btn-style"
+              onClick={incrementItemQuantity}
+            >
               +
             </button>
           </div>
@@ -60,6 +74,17 @@ const DishItem = props => {
         )}
         {customizationsAvaliable && (
           <p className="dish-customise">Customizations available</p>
+        )}
+        {quantity > 0 ? (
+          <button
+            type="button"
+            className="addtocart-btn"
+            onClick={addItemToCart}
+          >
+            ADD TO CART
+          </button>
+        ) : (
+          ''
         )}
       </div>
       <p className="dish-calories">{dishCalories} calories</p>

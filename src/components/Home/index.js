@@ -6,13 +6,14 @@ import NavBar from '../NavBar'
 import DishCategories from '../DishCategories'
 import DishItem from '../DishItem'
 
+import CartContext from '../../context/CartContext'
+
 import './index.css'
 
 class Home extends Component {
   state = {
     dishesAndCategoriesList: [],
     activeCategoryId: '',
-    cartList: [],
     isLoading: true,
     restaurantName: '',
   }
@@ -61,50 +62,6 @@ class Home extends Component {
     this.setState({activeCategoryId: activeId})
   }
 
-  addItemToCart = dishData => {
-    const {cartList} = this.state
-    const isAlreadyPresent = cartList.some(
-      eachDish => eachDish.dishId === dishData.dishId,
-    )
-
-    if (isAlreadyPresent) {
-      this.setState(prevState => ({
-        cartList: prevState.cartList.map(eachItem =>
-          eachItem.dishId === dishData.dishId
-            ? {...eachItem, quantity: eachItem.quantity + 1}
-            : eachItem,
-        ),
-      }))
-    } else {
-      this.setState(prevState => ({
-        cartList: [...prevState.cartList, {...dishData, quantity: 1}],
-      }))
-    }
-  }
-
-  removeItemFromCart = dishData => {
-    const {cartList} = this.state
-
-    const dishQuantity =
-      cartList.find(eachDish => eachDish.dishId === dishData.dishId)
-        ?.quantity || 0
-
-    if (dishQuantity > 1) {
-      this.setState(prevState => ({
-        cartList: prevState.cartList.map(eachItem =>
-          eachItem.dishId === dishData.dishId
-            ? {...eachItem, quantity: eachItem.quantity - 1}
-            : eachItem,
-        ),
-      }))
-    } else if (dishQuantity === 1) {
-      const newCartList = cartList.filter(
-        eachItem => eachItem.dishId !== dishData.dishId,
-      )
-      this.setState({cartList: [...newCartList]})
-    }
-  }
-
   renderDishCategories = () => {
     const {dishesAndCategoriesList, activeCategoryId} = this.state
 
@@ -123,7 +80,7 @@ class Home extends Component {
   }
 
   renderDishes = () => {
-    const {dishesAndCategoriesList, activeCategoryId, cartList} = this.state
+    const {dishesAndCategoriesList, activeCategoryId} = this.state
     const activeCategoryList = dishesAndCategoriesList.find(
       eachList => eachList.menuCategoryId === activeCategoryId,
     )
@@ -131,13 +88,7 @@ class Home extends Component {
     return (
       <ul className="category-dishes-container">
         {activeCategoryList.categoryDishes.map(eachItem => (
-          <DishItem
-            key={eachItem.dishId}
-            dishData={eachItem}
-            addItemToCart={this.addItemToCart}
-            removeItemFromCart={this.removeItemFromCart}
-            cartList={cartList}
-          />
+          <DishItem key={eachItem.dishId} dishData={eachItem} />
         ))}
       </ul>
     )
@@ -150,16 +101,28 @@ class Home extends Component {
   )
 
   render() {
-    const {cartList, isLoading, restaurantName} = this.state
+    const {isLoading, restaurantName} = this.state
 
     return isLoading ? (
       this.renderLoading()
     ) : (
-      <div>
-        <NavBar cartList={cartList} restaurantName={restaurantName} />
-        {this.renderDishCategories()}
-        {this.renderDishes()}
-      </div>
+      <CartContext.Consumer>
+        {value => {
+          const {getRestaurantName} = value
+
+          if (restaurantName) {
+            getRestaurantName(restaurantName)
+          }
+
+          return (
+            <div>
+              <NavBar />
+              {this.renderDishCategories()}
+              {this.renderDishes()}
+            </div>
+          )
+        }}
+      </CartContext.Consumer>
     )
   }
 }
